@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_user!, only: [:index, :create, :destroy]
+  before_action :set_user!, only: [:index, :create, :destroy, :update]
 
   def index
     if @user
@@ -20,6 +20,20 @@ class ProjectsController < ApplicationController
     else
       render json: {
         error: "unauthenticated",
+      }
+    end
+  end
+
+  def update
+    name = params[:project][:name]
+    id = params[:id]
+    # binding.pry
+    project = @user.projects.find(id)
+    if project.update(name: name)
+      render json: project
+    else
+      render json: {
+        error: "cannot update",
       }
     end
   end

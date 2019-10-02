@@ -7,9 +7,11 @@ Rails.application.routes.draw do
   get "projects", to: "projects#index"
   post "projects", to: "projects#create"
   delete "projects/:id", to: "projects#destroy"
+  put "projects/:id", to: "projects#update"
 
   get "projects/:project_id/tasks", to: "tasks#index"
   post "projects/:project_id/tasks", to: "tasks#create"
   delete "projects/:project_id/tasks/:id", to: "tasks#destroy"
   put "projects/:project_id/tasks/:id", to: "tasks#update"
+  
 end
