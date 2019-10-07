@@ -5,10 +5,11 @@ class AuthController < ApplicationController
     user = User.create(username: username, password: password, token: SecureRandom.urlsafe_base64(nil, false))
 
     if user.persisted?
-      render json: {
-        id: user.id,
-        username: user.username
-      }
+      # render json: {
+      #   id: user.id,
+      #   username: user.username
+      # }
+      render json: user
     else
       render json: {
         error: 'Cannot register user'

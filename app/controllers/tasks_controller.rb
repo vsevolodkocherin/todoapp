@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
-  before_action :set_user!, only: [:index, :create, :destroy, :update]
-  before_action :set_project!, only: [:index, :destroy, :update, :create]
+  before_action :set_user!, only: [:index, :create, :destroy, :update, :move_higher, :move_lower]
+  before_action :set_project!, only: [:index, :destroy, :update, :create, :move_higher, :move_lower]
 
   def index
     if @project.present?
-      render json: @project.tasks.order(created_at: :desc)
+      # render json: @project.tasks.order(created_at: :desc)
+      render json: @project.tasks.order(position: :asc)
     else
       render json: {
                error: "project not found",
@@ -42,6 +43,28 @@ class TasksController < ApplicationController
     else
       render json: {
         error: "task not updated",
+      }
+    end
+  end
+
+  def move_higher
+    task = @project.tasks.find(params[:task_id])
+    if task.move_higher
+      render json: task
+    else
+      render json: {
+        error: "can't move task",
+      }
+    end
+  end
+
+  def move_lower
+    task = @project.tasks.find(params[:task_id])
+    if task.move_lower
+      render json: task
+    else
+      render json: {
+        error: "can't move task",
       }
     end
   end
